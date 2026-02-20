@@ -3,36 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gaza Rose Gallery 🌹 — $1 Art for Palestine</title>
+<title>Gaza Rose Gallery 🌹 — Art · Guides · Knowledge · Free</title>
 <style>
-  :root{--rose:#ff2d6b;--gold:#ffd700;--dark:#0a0a0a;--panel:#111}
+  :root{--rose:#ff2d6b;--gold:#ffd700;--dark:#0a0a0a;--panel:#111;--green:#00ff88}
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--dark);color:#eee;font-family:'Georgia',serif;min-height:100vh}
+
+  /* NAV */
+  .nav{display:flex;justify-content:center;gap:6px;padding:14px 20px;position:sticky;top:0;background:rgba(10,10,10,0.95);backdrop-filter:blur(10px);z-index:100;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,0.06)}
+  .nav a{color:rgba(255,255,255,0.5);text-decoration:none;font-size:.8rem;padding:6px 14px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;transition:all .2s}
+  .nav a:hover{color:#fff;background:rgba(255,45,107,0.15)}
+
+  /* HERO */
   .hero{text-align:center;padding:60px 20px 40px;background:linear-gradient(135deg,#0a0a0a,#1a0010)}
   .hero h1{font-size:clamp(2rem,6vw,4rem);color:var(--rose);letter-spacing:-1px;margin-bottom:8px}
   .hero .sub{color:rgba(255,255,255,0.6);font-size:1.1rem;margin-bottom:20px}
-  .stats{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+  .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
   .stat{background:rgba(255,45,107,0.1);border:1px solid rgba(255,45,107,0.3);border-radius:12px;padding:12px 20px;text-align:center}
   .stat .num{font-size:1.8rem;font-weight:bold;color:var(--gold)}
-  .stat .lbl{font-size:.75rem;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase}
+  .stat .lbl{font-size:.7rem;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase}
   .mission{background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.2);border-radius:12px;padding:20px;max-width:600px;margin:0 auto 16px;text-align:center;line-height:1.7;color:rgba(255,255,255,0.75);font-size:.95rem}
-  .mission a{color:var(--gold);text-decoration:none}
-  .btc-bar{text-align:center;margin:0 auto 30px;font-size:.8rem;color:rgba(255,255,255,0.35)}
-  .btc-bar span{color:#f7931a;font-family:monospace;word-break:break-all;font-size:.75rem}
-  .search-bar{max-width:400px;margin:0 auto 40px;padding:0 20px}
+  .btc-bar{text-align:center;margin:0 auto 10px;font-size:.8rem;color:rgba(255,255,255,0.35)}
+  .btc-bar span{color:#f7931a;font-family:monospace;font-size:.72rem;word-break:break-all}
+
+  /* SECTION HEADERS */
+  .section-head{text-align:center;padding:50px 20px 30px}
+  .section-head h2{font-size:clamp(1.5rem,4vw,2.5rem);margin-bottom:8px}
+  .section-head p{color:rgba(255,255,255,0.5);max-width:500px;margin:0 auto;font-size:.95rem;line-height:1.6}
+  .rose-head{color:var(--rose)}
+  .gold-head{color:var(--gold)}
+  .green-head{color:var(--green)}
+  .blue-head{color:#4af}
+
+  /* SEARCH */
+  .search-bar{max-width:400px;margin:0 auto 30px;padding:0 20px}
   .search-bar input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 16px;color:#fff;font-size:1rem;outline:none}
   .search-bar input:focus{border-color:var(--rose)}
-  .loading-msg{text-align:center;color:rgba(255,255,255,0.3);padding:60px;font-size:1rem}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;padding:0 20px 60px;max-width:1400px;margin:0 auto}
+  .loading-msg{text-align:center;color:rgba(255,255,255,0.3);padding:60px}
+
+  /* ART GRID */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;padding:0 20px 20px;max-width:1400px;margin:0 auto}
   .card{background:var(--panel);border:1px solid rgba(255,255,255,0.08);border-radius:16px;overflow:hidden;transition:all .3s}
   .card:hover{transform:translateY(-4px);border-color:rgba(255,45,107,0.4);box-shadow:0 20px 40px rgba(255,45,107,0.15)}
   .card-img-wrap{position:relative;width:100%;aspect-ratio:1;overflow:hidden;cursor:pointer}
-  /* shimmer while loading */
   .shimmer{position:absolute;inset:0;background:linear-gradient(90deg,#1a0010 25%,#2a0020 50%,#1a0010 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
   @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
   .card-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
   .card-img.loaded{opacity:1}
-  .card:hover .card-img{transform:scale(1.05);transition:opacity .5s,transform .4s}
   .card-info{padding:14px}
   .card-name{font-size:.9rem;font-weight:bold;color:#fff;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .card-price{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
@@ -41,215 +58,388 @@
   .buy-row{display:flex;gap:8px;flex-wrap:wrap}
   .btn-paypal{background:#ffc439;color:#000;border:none;border-radius:8px;padding:8px 14px;font-size:.8rem;font-weight:bold;cursor:pointer;flex:1}
   .btn-btc{background:transparent;color:#f7931a;border:1px solid #f7931a;border-radius:8px;padding:8px 10px;font-size:.75rem;cursor:pointer}
-  /* Lightbox */
-  .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:1000;align-items:center;justify-content:center;flex-direction:column;padding:20px;overflow-y:auto}
+
+  /* GUIDES GRID */
+  .guides-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;padding:0 20px 20px;max-width:1200px;margin:0 auto}
+  .guide-card{background:#111;border:1px solid rgba(255,215,0,0.2);border-radius:16px;padding:24px;transition:all .3s}
+  .guide-card:hover{border-color:rgba(255,215,0,0.5);transform:translateY(-3px)}
+  .guide-emoji{font-size:2.5rem;margin-bottom:12px}
+  .guide-title{font-size:1.1rem;font-weight:bold;color:var(--gold);margin-bottom:8px}
+  .guide-desc{color:rgba(255,255,255,0.6);font-size:.9rem;line-height:1.6;margin-bottom:16px}
+  .guide-pages{font-size:.75rem;color:rgba(255,255,255,0.3);margin-bottom:16px}
+  .guide-buy-wrap{min-height:50px}
+  .guide-free{background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);border-radius:8px;padding:10px;text-align:center;color:var(--green);font-size:.85rem;cursor:pointer}
+
+  /* RIGHTS / FREE SECTION */
+  .rights-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding:0 20px 20px;max-width:1200px;margin:0 auto}
+  .right-card{background:#0d1a0d;border:1px solid rgba(0,255,136,0.15);border-radius:12px;padding:20px}
+  .right-card h3{color:var(--green);margin-bottom:8px;font-size:1rem}
+  .right-card p{color:rgba(255,255,255,0.55);font-size:.85rem;line-height:1.6}
+  .right-card a{color:var(--green);text-decoration:none;font-size:.8rem}
+
+  /* FORK SECTION */
+  .fork-section{max-width:700px;margin:0 auto;padding:0 20px 60px}
+  .fork-card{background:#0a0d1a;border:1px solid rgba(68,170,255,0.2);border-radius:16px;padding:30px;text-align:center}
+  .fork-card h3{color:#4af;font-size:1.3rem;margin-bottom:12px}
+  .fork-card p{color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:20px;font-size:.95rem}
+  .fork-steps{text-align:left;margin-bottom:20px}
+  .fork-steps li{color:rgba(255,255,255,0.6);margin-bottom:8px;font-size:.9rem;line-height:1.5;list-style:none;padding-left:24px;position:relative}
+  .fork-steps li::before{content:'→';position:absolute;left:0;color:#4af}
+  .code-block{background:#000;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px;font-family:monospace;font-size:.8rem;color:#0f0;text-align:left;margin:12px 0;word-break:break-all}
+  .btn-fork{background:#4af;color:#000;border:none;border-radius:8px;padding:12px 24px;font-size:.9rem;font-weight:bold;cursor:pointer;width:100%;margin-bottom:8px}
+
+  /* LIGHTBOX */
+  .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.97);z-index:1000;align-items:center;justify-content:center;flex-direction:column;padding:20px;overflow-y:auto}
   .lightbox.active{display:flex}
   .lb-inner{display:flex;flex-direction:column;align-items:center;max-width:600px;width:100%}
   .lightbox img{max-width:90vw;max-height:55vh;object-fit:contain;border-radius:12px;box-shadow:0 0 60px rgba(255,45,107,0.3)}
   .lightbox-name{color:#fff;font-size:1.4rem;margin-top:16px;text-align:center}
   .lightbox-sub{color:rgba(255,255,255,0.4);font-size:.85rem;margin-top:4px;text-align:center}
-  .lightbox-close{position:fixed;top:20px;right:24px;color:rgba(255,255,255,0.5);font-size:2rem;cursor:pointer;background:none;border:none;line-height:1;z-index:1001}
+  .lightbox-close{position:fixed;top:20px;right:24px;color:rgba(255,255,255,0.5);font-size:2rem;cursor:pointer;background:none;border:none;z-index:1001}
   .lb-payments{margin-top:20px;width:100%;max-width:380px}
-  .lb-paypal-wrap{width:100%;min-height:50px}
   .lb-btc{margin-top:12px;background:rgba(247,147,26,0.08);border:1px solid rgba(247,147,26,0.3);border-radius:12px;padding:16px;text-align:center}
   .lb-btc p{color:rgba(255,255,255,0.6);font-size:.8rem;margin-bottom:8px}
-  .lb-btc .addr{color:#f7931a;font-family:monospace;font-size:.7rem;word-break:break-all;user-select:all;background:rgba(0,0,0,0.3);padding:8px;border-radius:6px;cursor:text}
+  .lb-btc .addr{color:#f7931a;font-family:monospace;font-size:.7rem;word-break:break-all;background:rgba(0,0,0,0.3);padding:8px;border-radius:6px;cursor:text}
   .lb-btc .copy-btn{margin-top:8px;background:transparent;border:1px solid rgba(247,147,26,0.4);color:#f7931a;border-radius:6px;padding:4px 12px;font-size:.75rem;cursor:pointer}
+
+  /* DIVIDER */
+  .divider{border:none;border-top:1px solid rgba(255,255,255,0.06);margin:0 20px}
+
+  /* FOOTER */
   .footer{text-align:center;padding:40px;border-top:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.3);font-size:.85rem}
   .footer a{color:var(--rose);text-decoration:none}
+  .ai-disclosure{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:12px;margin:16px auto;max-width:600px;font-size:.75rem;color:rgba(255,255,255,0.35);line-height:1.6}
+
   @media(max-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}}
 </style>
 </head>
 <body>
+
+<!-- STICKY NAV — no friction, just scroll targets -->
+<nav class="nav">
+  <a href="#art">🌹 Art ($1)</a>
+  <a href="#guides">📖 Guides ($5)</a>
+  <a href="#rights">⚖️ Rights (Free)</a>
+  <a href="#fork">🧬 Fork This</a>
+</nav>
+
+<!-- HERO -->
 <div class="hero">
   <h1>🌹 Gaza Rose Gallery</h1>
-  <p class="sub">Original Digital Floral Art — $1 Each — 70% to Palestinian Children</p>
+  <p class="sub">Art · Knowledge · Tools · All in one place · No middlemen</p>
   <div class="stats">
     <div class="stat"><div class="num" id="count-stat">56</div><div class="lbl">Artworks</div></div>
-    <div class="stat"><div class="num">$1</div><div class="lbl">Per Piece</div></div>
+    <div class="stat"><div class="num">$1</div><div class="lbl">Per Art</div></div>
     <div class="stat"><div class="num">70%</div><div class="lbl">To PCRF</div></div>
-    <div class="stat"><div class="num">300</div><div class="lbl">DPI</div></div>
+    <div class="stat"><div class="num">$5</div><div class="lbl">Guides</div></div>
   </div>
   <div class="mission">
-    Every purchase sends 70% directly to the <a href="https://www.pcrf.net" target="_blank">Palestine Children's Relief Fund</a>.
-    Instant download. No account needed. Just $1 per original piece.
+    Buy original art for $1. Buy knowledge guides for $5. Take the legal toolkit free.
+    Fork the whole system for yourself.<br><br>
+    70% of every dollar goes to the
+    <strong style="color:var(--gold)">Palestine Children's Relief Fund</strong>
+    — verified 4-star Charity Navigator, 12 consecutive years.
   </div>
-  <div class="btc-bar">
-    Pay with Bitcoin too →
-    <span>bc1qka74n62h3zk9mcv8v8xjtjtwehmnm24w3pfzzr</span>
-  </div>
-  <div class="search-bar">
-    <input type="text" id="search" placeholder="Search flowers by name..." oninput="filterGallery()">
-  </div>
+  <div class="btc-bar">Bitcoin address → <span>bc1qka74n62h3zk9mcv8v8xjtjtwehmnm24w3pfzzr</span></div>
 </div>
 
-<div id="loading" class="loading-msg">🌹 Loading gallery...</div>
-<div class="grid" id="gallery"></div>
+<!-- ═══════════ SECTION 1: ART ═══════════ -->
+<section id="art">
+  <div class="section-head">
+    <h2 class="rose-head">🌹 Original Digital Art</h2>
+    <p>56 original 300 DPI flower artworks. $1 each. Instant download. 70% to PCRF children's aid.</p>
+  </div>
+  <div class="search-bar">
+    <input type="text" id="search" placeholder="Search by flower name..." oninput="filterGallery()">
+  </div>
+  <div id="loading" class="loading-msg">🌹 Loading gallery...</div>
+  <div class="grid" id="gallery"></div>
+</section>
 
+<hr class="divider">
+
+<!-- ═══════════ SECTION 2: GUIDES ═══════════ -->
+<section id="guides">
+  <div class="section-head">
+    <h2 class="gold-head">📖 Knowledge Guides — $5 Each</h2>
+    <p>Everything the AI system learned, packaged into guides anyone can use. Buy with PayPal right here. Instant download link sent to your email.</p>
+  </div>
+  <div class="guides-grid">
+
+    <div class="guide-card">
+      <div class="guide-emoji">🧬</div>
+      <div class="guide-title">Build Your Own Autonomous GitHub Organism</div>
+      <div class="guide-desc">Complete step-by-step guide to building a self-running system like this one. GitHub Actions as a brain, free APIs, AI email replies, payment processing — zero monthly cost. Any cause, any project.</div>
+      <div class="guide-pages">~40 pages · All code included · MIT License</div>
+      <div class="guide-buy-wrap" id="guide-pp-1"></div>
+    </div>
+
+    <div class="guide-card">
+      <div class="guide-emoji">⚖️</div>
+      <div class="guide-title">Know Your Rights: Fighting Back Against Corporate Abuse</div>
+      <div class="guide-desc">TCPA robocall claims ($500-$1,500 each), FCRA credit errors, FDCPA debt collector violations, class action participation, SEC whistleblower rewards. Every legal tool a regular person can actually use.</div>
+      <div class="guide-pages">~25 pages · US law · Every link you need · Free version below</div>
+      <div class="guide-buy-wrap" id="guide-pp-2"></div>
+    </div>
+
+    <div class="guide-card">
+      <div class="guide-emoji">💰</div>
+      <div class="guide-title">Free Money You Already Qualify For</div>
+      <div class="guide-desc">Class action claims open right now. FTC refund programs. State unclaimed property (everyone has some). Grant databases for individuals. Rolling microgrants with no nonprofit required. Legal, ethical, real.</div>
+      <div class="guide-pages">~20 pages · Updated monthly by AI agent</div>
+      <div class="guide-buy-wrap" id="guide-pp-3"></div>
+    </div>
+
+    <div class="guide-card">
+      <div class="guide-emoji">🌐</div>
+      <div class="guide-title">Open Protocols: The No-Gatekeeping Internet Stack</div>
+      <div class="guide-desc">Lightning Network for zero-fee payments. ActivityPub/Mastodon for social without owners. RSS for information without algorithms. How to build on standards nobody owns so nobody can take it from you.</div>
+      <div class="guide-pages">~30 pages · Technical + accessible</div>
+      <div class="guide-buy-wrap" id="guide-pp-4"></div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════ SECTION 3: RIGHTS (FREE) ═══════════ -->
+<section id="rights">
+  <div class="section-head">
+    <h2 class="green-head">⚖️ Know Your Rights — 100% Free</h2>
+    <p>This knowledge belongs to everyone. No purchase. No email required. Just read it and use it.</p>
+  </div>
+  <div class="rights-grid">
+    <div class="right-card">
+      <h3>📱 Illegal Robocalls (TCPA)</h3>
+      <p>Every illegal robocall to your cell = $500–$1,500. Screenshot the number and date. File at <a href="https://reportfraud.ftc.gov" target="_blank">reportfraud.ftc.gov</a>. Find a TCPA attorney — they work on contingency, zero cost to you.</p>
+    </div>
+    <div class="right-card">
+      <h3>🏦 Your Data Rights (CCPA/GDPR)</h3>
+      <p>Email any company: "Pursuant to CCPA, I request deletion of all personal data you hold on me." They must comply in 45 days. Non-compliance = file with your state AG office free.</p>
+    </div>
+    <div class="right-card">
+      <h3>📋 Credit Report Errors (FCRA)</h3>
+      <p>Pull your free reports at <a href="https://annualcreditreport.com" target="_blank">annualcreditreport.com</a>. Any error = right to sue the bureau. FCRA attorneys work on contingency — they get paid from the settlement.</p>
+    </div>
+    <div class="right-card">
+      <h3>💵 Illegal Debt Collection (FDCPA)</h3>
+      <p>Collectors can't call before 8AM or after 9PM. Can't threaten. Can't harass. Each violation = up to $1,000 + attorney fees (they pay). Send a certified letter demanding they stop, then document every call after that.</p>
+    </div>
+    <div class="right-card">
+      <h3>🔍 Corporate Data Breaches</h3>
+      <p>Check if your data was leaked: <a href="https://haveibeenpwned.com" target="_blank">haveibeenpwned.com</a>. Find open class action claims at <a href="https://classaction.org" target="_blank">classaction.org</a>. File a claim — often $50–$500, no lawyer needed.</p>
+    </div>
+    <div class="right-card">
+      <h3>💰 SEC Whistleblower (Serious Money)</h3>
+      <p>Know about corporate fraud over $1 million? The SEC pays 10–30% of sanctions to tipsters. Anonymous submission possible. File at <a href="https://sec.gov/whistleblower" target="_blank">sec.gov/whistleblower</a>. Real people have received $50M+ payouts.</p>
+    </div>
+    <div class="right-card">
+      <h3>🏛️ Free Legal Help</h3>
+      <p><a href="https://lawhelp.org" target="_blank">lawhelp.org</a> — free legal aid by state. <a href="https://lsc.gov" target="_blank">lsc.gov</a> — income-based free legal. <a href="https://courtlistener.com" target="_blank">courtlistener.com</a> — free court documents. <a href="https://law.cornell.edu" target="_blank">law.cornell.edu</a> — look up any law yourself.</p>
+    </div>
+    <div class="right-card">
+      <h3>🌍 International Human Rights</h3>
+      <p>UN Human Rights Council: <a href="https://ohchr.org" target="_blank">ohchr.org</a>. International Criminal Court: <a href="https://icc-cpi.int" target="_blank">icc-cpi.int</a>. State violence, war crimes, crimes against humanity — there are real complaint mechanisms.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════ SECTION 4: FORK THIS ═══════════ -->
+<section id="fork">
+  <div class="section-head">
+    <h2 class="blue-head">🧬 Fork This Entire System</h2>
+    <p>Everything here — the gallery, the AI brain, the grant hunter, the email responder, the morning briefing — is open source and forkable. Point it at your cause and let it run.</p>
+  </div>
+  <div class="fork-section">
+    <div class="fork-card">
+      <h3>🌱 Your Own Autonomous Mycelium</h3>
+      <p>What you get when you fork: a self-running system that promotes itself, applies for grants, answers emails with AI, tracks everything, and never charges you a monthly fee. Built on free GitHub infrastructure. Zero servers. Zero cost.</p>
+      <ul class="fork-steps">
+        <li>Fork <strong>meeko-nerve-center</strong> on GitHub</li>
+        <li>Add your project details and charity partner</li>
+        <li>Add 4 free API keys (OpenRouter, SerpAPI, Gmail, GitHub)</li>
+        <li>Enable GitHub Pages for your gallery</li>
+        <li>The organism wakes up and starts growing</li>
+      </ul>
+      <div class="code-block">github.com/meekotharaccoon-cell/meeko-nerve-center</div>
+      <button class="btn-fork" onclick="window.open('https://github.com/meekotharaccoon-cell/meeko-nerve-center','_blank')">
+        Fork the System on GitHub →
+      </button>
+      <p style="color:rgba(255,255,255,0.3);font-size:.8rem;margin-top:8px">MIT License. Free forever. No strings.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
   <div class="lb-inner">
     <img id="lb-img" src="" alt="">
     <div class="lightbox-name" id="lb-name"></div>
-    <div class="lightbox-sub">300 DPI · Instant Download · $1.00</div>
+    <div class="lightbox-sub">300 DPI · Instant Download · $1.00 · 70% → PCRF</div>
     <div class="lb-payments">
-      <div class="lb-paypal-wrap" id="lb-paypal"></div>
+      <div id="lb-paypal"></div>
       <div class="lb-btc">
         <p>Or pay with Bitcoin — send $1 equivalent to:</p>
-        <div class="addr" id="btc-addr">bc1qka74n62h3zk9mcv8v8xjtjtwehmnm24w3pfzzr</div>
+        <div class="addr">bc1qka74n62h3zk9mcv8v8xjtjtwehmnm24w3pfzzr</div>
         <button class="copy-btn" onclick="copyBtc()">Copy address</button>
-        <p style="margin-top:8px;font-size:.7rem;color:rgba(255,255,255,0.3)">Then email mickowood86@gmail.com with your TX and which piece you want</p>
+        <p style="margin-top:8px;font-size:.7rem;color:rgba(255,255,255,0.3)">Then email mickowood86@gmail.com with your TX hash and which piece you want</p>
       </div>
     </div>
   </div>
 </div>
 
+<!-- FOOTER -->
 <div class="footer">
-  <p>Gaza Rose Gallery · <a href="https://www.pcrf.net" target="_blank">PCRF.net</a> · Open Source · Made with love 🌹</p>
+  <div class="ai-disclosure">
+    🤖 <strong style="color:rgba(255,255,255,0.6)">AI Disclosure:</strong>
+    This gallery is managed by an autonomous AI agent (Meeko Mycelium).
+    Emails from this system are written and sent by AI on behalf of Meeko.
+    All financial transactions go to a real human (Meeko) and 70% is committed to PCRF.
+    Your personal information is never stored, sold, or shared — ever.
+    If you email us, a human will always be able to reach you back.
+  </div>
+  <p>Gaza Rose Gallery · <a href="https://www.pcrf.net" target="_blank">PCRF.net (EIN 93-1057665)</a> · Open Source · Made with love 🌹</p>
   <p style="margin-top:8px">Questions? <a href="mailto:mickowood86@gmail.com">mickowood86@gmail.com</a></p>
-  <p style="margin-top:8px;font-size:.75rem">Built by Meeko — autonomous, open source, no ads, no middlemen</p>
+  <p style="margin-top:8px;font-size:.75rem;color:rgba(255,255,255,0.2)">
+    Built by Meeko + AI · Autonomous · No ads · No middlemen · No monthly cost ·
+    <a href="https://github.com/meekotharaccoon-cell" style="color:rgba(255,255,255,0.3)">Source code</a>
+  </p>
 </div>
 
 <script src="https://www.paypal.com/sdk/js?client-id=AaMNXxUU0cRwqklyGcQ4T3VP-0ymQE9aYaL_P0wwh7arTpn41GZClSDNYQI2R4dh1Nv1DhirWKfk7O31&currency=USD"></script>
 <script>
-const RAW   = 'https://raw.githubusercontent.com/meekotharaccoon-cell/gaza-rose-gallery/main/art/';
-const BTC   = 'bc1qka74n62h3zk9mcv8v8xjtjtwehmnm24w3pfzzr';
-const COLORS= ['#3d0020','#001a20','#1a0030','#001a10','#200010','#0a2000','#1a1000','#00102a'];
+const RAW  = 'https://raw.githubusercontent.com/meekotharaccoon-cell/gaza-rose-gallery/main/art/';
+const BTC  = 'bc1qka74n62h3zk9mcv8v8xjtjtwehmnm24w3pfzzr';
+const COLORS=['#3d0020','#001a20','#1a0030','#001a10','#200010','#0a2000','#1a1000','#00102a'];
+let artData=[];
 
-let artData = [];
-let lbPaypalRendered = false;
+// GUIDES — PayPal buttons rendered inline, no external page needed
+const GUIDES = [
+  {id:'guide-pp-1', amount:'5.00', name:'Build Your Own Autonomous GitHub Organism Guide'},
+  {id:'guide-pp-2', amount:'5.00', name:'Know Your Rights: Fighting Corporate Abuse Guide'},
+  {id:'guide-pp-3', amount:'5.00', name:'Free Money You Already Qualify For Guide'},
+  {id:'guide-pp-4', amount:'5.00', name:'Open Protocols: No-Gatekeeping Internet Stack Guide'},
+];
 
-function toDisplayName(filename) {
-  return filename
-    .replace(/300\.(jpg|jpeg|png)$/i, '')
-    .replace(/_/g, ' ')
-    .trim()
-    .split(' ')
-    .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
-    .join(' ');
+window.addEventListener('load', () => {
+  loadArt();
+  renderGuideBtns();
+});
+
+function renderGuideBtns() {
+  GUIDES.forEach(g => {
+    const el = document.getElementById(g.id);
+    if (!el) return;
+    paypal.Buttons({
+      style:{layout:'vertical',color:'gold',shape:'rect',label:'pay',height:44},
+      createOrder: (_,a) => a.order.create({purchase_units:[{
+        amount:{value:g.amount},
+        description:'Gaza Rose: ' + g.name
+      }]}),
+      onApprove: async (_,a) => {
+        await a.order.capture();
+        alert('Thank you! 🌹\nYour guide PDF link will be emailed to you within minutes.\n70% of your $5 goes to PCRF children\'s aid.\n\nIf you don\'t get an email in 10 minutes: mickowood86@gmail.com');
+      },
+      onError: () => alert('PayPal error. Email mickowood86@gmail.com to purchase.')
+    }).render('#' + g.id);
+  });
 }
 
-function encodeFile(filename) {
-  // encode each path segment but preserve the dot in extension
-  return filename.split('').map(c => c === ' ' ? '%20' : c).join('');
+function toDisplayName(f){
+  return f.replace(/300\.(jpg|jpeg|png)$/i,'').replace(/_/g,' ').trim()
+    .split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()).join(' ');
 }
 
-function buildGallery(arts) {
-  const grid = document.getElementById('gallery');
-  grid.innerHTML = '';
-  document.getElementById('loading').style.display = 'none';
-  document.getElementById('count-stat').textContent = artData.length;
-
-  arts.forEach((art, i) => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    const color = COLORS[i % COLORS.length];
-    const imgUrl = RAW + encodeFile(art.file);
-
-    card.innerHTML = `
+function buildGallery(arts){
+  const grid=document.getElementById('gallery');
+  grid.innerHTML='';
+  document.getElementById('loading').style.display='none';
+  document.getElementById('count-stat').textContent=artData.length;
+  arts.forEach((art,i)=>{
+    const card=document.createElement('div');
+    card.className='card';
+    const color=COLORS[i%COLORS.length];
+    const url=RAW+art.file.split('').map(c=>c===' '?'%20':c).join('');
+    card.innerHTML=`
       <div class="card-img-wrap" style="background:linear-gradient(135deg,${color},#0a0a0a)" onclick="openLightbox(${art._idx})">
         <div class="shimmer"></div>
-        <img class="card-img"
-             src="${imgUrl}"
-             alt="${art.name}"
-             loading="lazy"
-             onload="this.classList.add('loaded');this.previousElementSibling.style.display='none'"
-             onerror="this.previousElementSibling.style.display='none'">
+        <img class="card-img" src="${url}" alt="${art.name}" loading="lazy"
+          onload="this.classList.add('loaded');this.previousElementSibling.style.display='none'"
+          onerror="this.previousElementSibling.style.display='none'">
       </div>
       <div class="card-info">
         <div class="card-name" title="${art.name}">${art.name}</div>
-        <div class="card-price">
-          <span class="price-tag">$1.00</span>
-          <span class="pcrf-badge">70% → PCRF</span>
-        </div>
+        <div class="card-price"><span class="price-tag">$1.00</span><span class="pcrf-badge">70% → PCRF</span></div>
         <div class="buy-row">
           <button class="btn-paypal" onclick="openLightbox(${art._idx})">Buy $1 · PayPal</button>
-          <button class="btn-btc" onclick="openLightbox(${art._idx})" title="Pay with Bitcoin">₿</button>
+          <button class="btn-btc" onclick="openLightbox(${art._idx})">₿</button>
         </div>
       </div>`;
     grid.appendChild(card);
   });
 }
 
-function openLightbox(idx) {
-  const art = artData[idx];
-  const imgUrl = RAW + encodeFile(art.file);
-
-  document.getElementById('lb-img').src = imgUrl;
-  document.getElementById('lb-name').textContent = art.name;
+function openLightbox(idx){
+  const art=artData[idx];
+  const url=RAW+art.file.split('').map(c=>c===' '?'%20':c).join('');
+  document.getElementById('lb-img').src=url;
+  document.getElementById('lb-name').textContent=art.name;
   document.getElementById('lightbox').classList.add('active');
-  document.body.style.overflow = 'hidden';
-
-  // Render PayPal button fresh each time
-  const ppEl = document.getElementById('lb-paypal');
-  ppEl.innerHTML = '<div id="lb-pp-inner"></div>';
-
+  document.body.style.overflow='hidden';
+  const pp=document.getElementById('lb-paypal');
+  pp.innerHTML='<div id="lb-pp-inner"></div>';
   paypal.Buttons({
-    style: {layout:'vertical',color:'gold',shape:'rect',label:'pay',height:48},
-    createOrder: (_, actions) => actions.order.create({
-      purchase_units: [{
-        amount: {value: '1.00'},
-        description: 'Gaza Rose — ' + art.name + ' (300 DPI digital download)'
-      }]
-    }),
-    onApprove: async (_, actions) => {
-      await actions.order.capture();
-      // Trigger download
-      const a = document.createElement('a');
-      a.href = imgUrl; a.download = art.file; a.target = '_blank';
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    style:{layout:'vertical',color:'gold',shape:'rect',label:'pay',height:48},
+    createOrder:(_,a)=>a.order.create({purchase_units:[{amount:{value:'1.00'},description:'Gaza Rose — '+art.name}]}),
+    onApprove:async(_,a)=>{
+      await a.order.capture();
+      const l=document.createElement('a');
+      l.href=url;l.download=art.file;l.target='_blank';
+      document.body.appendChild(l);l.click();document.body.removeChild(l);
       closeLightbox();
-      alert('Thank you! 🌹\nDownloading "' + art.name + '".\n70% of your $1 goes to PCRF children\'s aid.');
+      alert('Thank you! 🌹\nDownloading "'+art.name+'".\n70% of your $1 goes to PCRF children\'s aid.');
     },
-    onError: () => {
-      window.open('mailto:mickowood86@gmail.com?subject=Gaza Rose Purchase&body=I want to buy: ' + art.name, '_blank');
-    }
+    onError:()=>window.open('mailto:mickowood86@gmail.com?subject=Purchase&body=I want: '+art.name,'_blank')
   }).render('#lb-pp-inner');
 }
 
-function closeLightbox() {
+function closeLightbox(){
   document.getElementById('lightbox').classList.remove('active');
-  document.body.style.overflow = '';
-  document.getElementById('lb-paypal').innerHTML = '';
+  document.body.style.overflow='';
+  document.getElementById('lb-paypal').innerHTML='';
 }
 
-function copyBtc() {
-  navigator.clipboard.writeText(BTC).then(() => {
-    const btn = document.querySelector('.copy-btn');
-    btn.textContent = 'Copied!';
-    setTimeout(() => btn.textContent = 'Copy address', 2000);
+function copyBtc(){
+  navigator.clipboard.writeText(BTC).then(()=>{
+    const b=document.querySelector('.copy-btn');
+    b.textContent='Copied!';setTimeout(()=>b.textContent='Copy address',2000);
   });
 }
 
-function filterGallery() {
-  const q = document.getElementById('search').value.toLowerCase();
-  buildGallery(artData.filter(a => a.name.toLowerCase().includes(q)));
+function filterGallery(){
+  const q=document.getElementById('search').value.toLowerCase();
+  buildGallery(artData.filter(a=>a.name.toLowerCase().includes(q)));
 }
 
-document.getElementById('lightbox').addEventListener('click', function(e) {
-  if (e.target === this) closeLightbox();
-});
+document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLightbox();});
 
-// LOAD: fetch real filenames from GitHub Contents API
-window.onload = async function() {
-  try {
-    const r = await fetch('https://api.github.com/repos/meekotharaccoon-cell/gaza-rose-gallery/contents/art');
-    if (!r.ok) throw new Error('API failed');
-    const files = await r.json();
-    artData = files
-      .filter(f => /\.(jpg|jpeg|png)$/i.test(f.name))
-      .map((f, i) => ({
-        name: toDisplayName(f.name),
-        file: f.name,
-        _idx: i
-      }));
-    document.getElementById('count-stat').textContent = artData.length;
+async function loadArt(){
+  try{
+    const r=await fetch('https://api.github.com/repos/meekotharaccoon-cell/gaza-rose-gallery/contents/art');
+    if(!r.ok)throw new Error();
+    const files=await r.json();
+    artData=files.filter(f=>/\.(jpg|jpeg|png)$/i.test(f.name))
+      .map((f,i)=>({name:toDisplayName(f.name),file:f.name,_idx:i}));
+    document.getElementById('count-stat').textContent=artData.length;
     buildGallery(artData);
-  } catch(e) {
-    console.error('GitHub API failed:', e);
-    document.getElementById('loading').textContent = '⚠️ Could not load gallery. Please refresh.';
+  }catch(e){
+    document.getElementById('loading').textContent='⚠️ Could not load gallery — please refresh.';
   }
-};
+}
 </script>
 </body>
 </html>
