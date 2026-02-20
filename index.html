@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gaza Rose Gallery 🌹 — $1 Art for Palestine</title>
 <style>
-  :root { --rose:#ff2d6b;--gold:#ffd700;--dark:#0a0a0a;--panel:#111 }
+  :root{--rose:#ff2d6b;--gold:#ffd700;--dark:#0a0a0a;--panel:#111}
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--dark);color:#eee;font-family:'Georgia',serif;min-height:100vh}
   .hero{text-align:center;padding:60px 20px 40px;background:linear-gradient(135deg,#0a0a0a,#1a0010)}
@@ -15,41 +15,57 @@
   .stat{background:rgba(255,45,107,0.1);border:1px solid rgba(255,45,107,0.3);border-radius:12px;padding:12px 20px;text-align:center}
   .stat .num{font-size:1.8rem;font-weight:bold;color:var(--gold)}
   .stat .lbl{font-size:.75rem;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase}
-  .mission{background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.2);border-radius:12px;padding:20px;max-width:600px;margin:0 auto 40px;text-align:center;line-height:1.7;color:rgba(255,255,255,0.75);font-size:.95rem}
+  .mission{background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.2);border-radius:12px;padding:20px;max-width:600px;margin:0 auto 16px;text-align:center;line-height:1.7;color:rgba(255,255,255,0.75);font-size:.95rem}
   .mission a{color:var(--gold);text-decoration:none}
+  .btc-bar{text-align:center;margin:0 auto 30px;font-size:.8rem;color:rgba(255,255,255,0.35)}
+  .btc-bar span{color:#f7931a;font-family:monospace;word-break:break-all;font-size:.75rem}
   .search-bar{max-width:400px;margin:0 auto 40px;padding:0 20px}
   .search-bar input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 16px;color:#fff;font-size:1rem;outline:none}
   .search-bar input:focus{border-color:var(--rose)}
+  .loading-msg{text-align:center;color:rgba(255,255,255,0.3);padding:60px;font-size:1rem}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;padding:0 20px 60px;max-width:1400px;margin:0 auto}
-  .card{background:var(--panel);border:1px solid rgba(255,255,255,0.08);border-radius:16px;overflow:hidden;transition:all .3s;cursor:pointer}
+  .card{background:var(--panel);border:1px solid rgba(255,255,255,0.08);border-radius:16px;overflow:hidden;transition:all .3s}
   .card:hover{transform:translateY(-4px);border-color:rgba(255,45,107,0.4);box-shadow:0 20px 40px rgba(255,45,107,0.15)}
-  .card-img-wrap{position:relative;width:100%;aspect-ratio:1;overflow:hidden}
-  .card-img-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:3rem;opacity:0.4}
-  .card-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;transition:transform .4s}
-  .card:hover .card-img{transform:scale(1.05)}
+  .card-img-wrap{position:relative;width:100%;aspect-ratio:1;overflow:hidden;cursor:pointer}
+  /* shimmer while loading */
+  .shimmer{position:absolute;inset:0;background:linear-gradient(90deg,#1a0010 25%,#2a0020 50%,#1a0010 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .card-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
+  .card-img.loaded{opacity:1}
+  .card:hover .card-img{transform:scale(1.05);transition:opacity .5s,transform .4s}
   .card-info{padding:14px}
   .card-name{font-size:.9rem;font-weight:bold;color:#fff;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .card-price{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .card-price{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
   .price-tag{color:var(--gold);font-size:1.1rem;font-weight:bold}
   .pcrf-badge{font-size:.65rem;color:rgba(255,255,255,0.4);letter-spacing:1px}
-  .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:1000;align-items:center;justify-content:center;flex-direction:column;padding:20px}
+  .buy-row{display:flex;gap:8px;flex-wrap:wrap}
+  .btn-paypal{background:#ffc439;color:#000;border:none;border-radius:8px;padding:8px 14px;font-size:.8rem;font-weight:bold;cursor:pointer;flex:1}
+  .btn-btc{background:transparent;color:#f7931a;border:1px solid #f7931a;border-radius:8px;padding:8px 10px;font-size:.75rem;cursor:pointer}
+  /* Lightbox */
+  .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:1000;align-items:center;justify-content:center;flex-direction:column;padding:20px;overflow-y:auto}
   .lightbox.active{display:flex}
-  .lightbox img{max-width:90vw;max-height:70vh;object-fit:contain;border-radius:12px;box-shadow:0 0 60px rgba(255,45,107,0.3)}
+  .lb-inner{display:flex;flex-direction:column;align-items:center;max-width:600px;width:100%}
+  .lightbox img{max-width:90vw;max-height:55vh;object-fit:contain;border-radius:12px;box-shadow:0 0 60px rgba(255,45,107,0.3)}
   .lightbox-name{color:#fff;font-size:1.4rem;margin-top:16px;text-align:center}
-  .lightbox-price{color:var(--gold);font-size:1rem;margin-top:4px}
-  .lightbox-close{position:absolute;top:20px;right:24px;color:rgba(255,255,255,0.5);font-size:2rem;cursor:pointer;background:none;border:none;line-height:1}
-  .lightbox-paypal{margin-top:16px}
+  .lightbox-sub{color:rgba(255,255,255,0.4);font-size:.85rem;margin-top:4px;text-align:center}
+  .lightbox-close{position:fixed;top:20px;right:24px;color:rgba(255,255,255,0.5);font-size:2rem;cursor:pointer;background:none;border:none;line-height:1;z-index:1001}
+  .lb-payments{margin-top:20px;width:100%;max-width:380px}
+  .lb-paypal-wrap{width:100%;min-height:50px}
+  .lb-btc{margin-top:12px;background:rgba(247,147,26,0.08);border:1px solid rgba(247,147,26,0.3);border-radius:12px;padding:16px;text-align:center}
+  .lb-btc p{color:rgba(255,255,255,0.6);font-size:.8rem;margin-bottom:8px}
+  .lb-btc .addr{color:#f7931a;font-family:monospace;font-size:.7rem;word-break:break-all;user-select:all;background:rgba(0,0,0,0.3);padding:8px;border-radius:6px;cursor:text}
+  .lb-btc .copy-btn{margin-top:8px;background:transparent;border:1px solid rgba(247,147,26,0.4);color:#f7931a;border-radius:6px;padding:4px 12px;font-size:.75rem;cursor:pointer}
   .footer{text-align:center;padding:40px;border-top:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.3);font-size:.85rem}
   .footer a{color:var(--rose);text-decoration:none}
-  @media(max-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}}
+  @media(max-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}}
 </style>
 </head>
 <body>
 <div class="hero">
   <h1>🌹 Gaza Rose Gallery</h1>
-  <p class="sub">Original AI Floral Art — $1 Each — 70% to Palestinian Children</p>
+  <p class="sub">Original Digital Floral Art — $1 Each — 70% to Palestinian Children</p>
   <div class="stats">
-    <div class="stat"><div class="num">69</div><div class="lbl">Artworks</div></div>
+    <div class="stat"><div class="num" id="count-stat">56</div><div class="lbl">Artworks</div></div>
     <div class="stat"><div class="num">$1</div><div class="lbl">Per Piece</div></div>
     <div class="stat"><div class="num">70%</div><div class="lbl">To PCRF</div></div>
     <div class="stat"><div class="num">300</div><div class="lbl">DPI</div></div>
@@ -58,51 +74,87 @@
     Every purchase sends 70% directly to the <a href="https://www.pcrf.net" target="_blank">Palestine Children's Relief Fund</a>.
     Instant download. No account needed. Just $1 per original piece.
   </div>
+  <div class="btc-bar">
+    Pay with Bitcoin too →
+    <span>bc1qka74n62h3zk9mcv8v8xjtjtwehmnm24w3pfzzr</span>
+  </div>
   <div class="search-bar">
-    <input type="text" id="search" placeholder="Search art by name..." oninput="filterGallery()">
+    <input type="text" id="search" placeholder="Search flowers by name..." oninput="filterGallery()">
   </div>
 </div>
 
+<div id="loading" class="loading-msg">🌹 Loading gallery...</div>
 <div class="grid" id="gallery"></div>
 
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lb-img" src="" alt="">
-  <div class="lightbox-name" id="lb-name"></div>
-  <div class="lightbox-price">$1.00 · 300 DPI · Instant Download</div>
-  <div class="lightbox-paypal" id="lb-paypal"></div>
+  <div class="lb-inner">
+    <img id="lb-img" src="" alt="">
+    <div class="lightbox-name" id="lb-name"></div>
+    <div class="lightbox-sub">300 DPI · Instant Download · $1.00</div>
+    <div class="lb-payments">
+      <div class="lb-paypal-wrap" id="lb-paypal"></div>
+      <div class="lb-btc">
+        <p>Or pay with Bitcoin — send $1 equivalent to:</p>
+        <div class="addr" id="btc-addr">bc1qka74n62h3zk9mcv8v8xjtjtwehmnm24w3pfzzr</div>
+        <button class="copy-btn" onclick="copyBtc()">Copy address</button>
+        <p style="margin-top:8px;font-size:.7rem;color:rgba(255,255,255,0.3)">Then email mickowood86@gmail.com with your TX and which piece you want</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="footer">
   <p>Gaza Rose Gallery · <a href="https://www.pcrf.net" target="_blank">PCRF.net</a> · Open Source · Made with love 🌹</p>
   <p style="margin-top:8px">Questions? <a href="mailto:mickowood86@gmail.com">mickowood86@gmail.com</a></p>
+  <p style="margin-top:8px;font-size:.75rem">Built by Meeko — autonomous, open source, no ads, no middlemen</p>
 </div>
 
-<script src="https://www.paypal.com/sdk/js?client-id=AYONTtLaiBsOe-z3k7XSjZyHiE8NhapYPTYb2PkbqU0hPgXoC_J-dseyAeOqefIHU2FXAjHDne-PyeY8&currency=USD"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AaMNXxUU0cRwqklyGcQ4T3VP-0ymQE9aYaL_P0wwh7arTpn41GZClSDNYQI2R4dh1Nv1DhirWKfk7O31&currency=USD"></script>
 <script>
-const RAW_BASE = 'https://raw.githubusercontent.com/meekotharaccoon-cell/gaza-rose-gallery/main/art/';
-const RELEASE_BASE = 'https://github.com/meekotharaccoon-cell/gaza-rose-gallery/releases/download/v1.0-art-collection/';
-const COLORS = ['#3d0020','#002020','#1a0030','#001a10','#200010','#0a2000','#1a1000','#00102a'];
+const RAW   = 'https://raw.githubusercontent.com/meekotharaccoon-cell/gaza-rose-gallery/main/art/';
+const BTC   = 'bc1qka74n62h3zk9mcv8v8xjtjtwehmnm24w3pfzzr';
+const COLORS= ['#3d0020','#001a20','#1a0030','#001a10','#200010','#0a2000','#1a1000','#00102a'];
 
 let artData = [];
-let currentIndex = 0;
+let lbPaypalRendered = false;
+
+function toDisplayName(filename) {
+  return filename
+    .replace(/300\.(jpg|jpeg|png)$/i, '')
+    .replace(/_/g, ' ')
+    .trim()
+    .split(' ')
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(' ');
+}
+
+function encodeFile(filename) {
+  // encode each path segment but preserve the dot in extension
+  return filename.split('').map(c => c === ' ' ? '%20' : c).join('');
+}
 
 function buildGallery(arts) {
   const grid = document.getElementById('gallery');
   grid.innerHTML = '';
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('count-stat').textContent = artData.length;
+
   arts.forEach((art, i) => {
     const card = document.createElement('div');
     card.className = 'card';
     const color = COLORS[i % COLORS.length];
+    const imgUrl = RAW + encodeFile(art.file);
+
     card.innerHTML = `
       <div class="card-img-wrap" style="background:linear-gradient(135deg,${color},#0a0a0a)" onclick="openLightbox(${art._idx})">
-        <div class="card-img-placeholder">🌹</div>
+        <div class="shimmer"></div>
         <img class="card-img"
-             src="${RAW_BASE}${art.file}"
+             src="${imgUrl}"
              alt="${art.name}"
              loading="lazy"
-             onload="this.style.display='block';this.previousElementSibling.style.display='none'"
-             onerror="this.style.display='none'">
+             onload="this.classList.add('loaded');this.previousElementSibling.style.display='none'"
+             onerror="this.previousElementSibling.style.display='none'">
       </div>
       <div class="card-info">
         <div class="card-name" title="${art.name}">${art.name}</div>
@@ -110,88 +162,93 @@ function buildGallery(arts) {
           <span class="price-tag">$1.00</span>
           <span class="pcrf-badge">70% → PCRF</span>
         </div>
-        <div id="pp-btn-${art._idx}"></div>
+        <div class="buy-row">
+          <button class="btn-paypal" onclick="openLightbox(${art._idx})">Buy $1 · PayPal</button>
+          <button class="btn-btc" onclick="openLightbox(${art._idx})" title="Pay with Bitcoin">₿</button>
+        </div>
       </div>`;
     grid.appendChild(card);
-
-    setTimeout(() => {
-      const el = document.getElementById('pp-btn-' + art._idx);
-      if (!el || el.children.length) return;
-      const a = artData[art._idx];
-      paypal.Buttons({
-        style:{layout:'horizontal',color:'black',shape:'rect',label:'buynow',height:32,tagline:false},
-        createOrder:(_,actions)=>actions.order.create({purchase_units:[{amount:{value:'1.00'},description:'Gaza Rose — '+a.name+' (300 DPI)'}]}),
-        onApprove:async(_,actions)=>{
-          await actions.order.capture();
-          const link=document.createElement('a');link.href=a.downloadUrl;link.download=a.file;link.target='_blank';
-          document.body.appendChild(link);link.click();document.body.removeChild(link);
-          alert('Thank you! Downloading "'+a.name+'". 70% goes to PCRF. 🌹');
-        },
-        onError:()=>window.open(a.downloadUrl,'_blank')
-      }).render('#pp-btn-'+art._idx);
-    }, i * 60);
   });
 }
 
 function openLightbox(idx) {
-  currentIndex = idx;
   const art = artData[idx];
-  document.getElementById('lb-img').src = RAW_BASE + art.file;
-  document.getElementById('lb-img').onerror = function(){
-    this.src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect fill='%23200010' width='400' height='400'/><text x='50%' y='50%' font-size='80' text-anchor='middle' dominant-baseline='middle'>🌹</text></svg>";
-  };
+  const imgUrl = RAW + encodeFile(art.file);
+
+  document.getElementById('lb-img').src = imgUrl;
   document.getElementById('lb-name').textContent = art.name;
-  const lb = document.getElementById('lightbox');
-  lb.classList.add('active');
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Render PayPal button fresh each time
   const ppEl = document.getElementById('lb-paypal');
-  ppEl.innerHTML = '<div id="lb-pp"></div>';
+  ppEl.innerHTML = '<div id="lb-pp-inner"></div>';
+
   paypal.Buttons({
-    style:{layout:'vertical',color:'gold',shape:'rect',label:'pay',height:45},
-    createOrder:(_,actions)=>actions.order.create({purchase_units:[{amount:{value:'1.00'},description:'Gaza Rose — '+art.name}]}),
-    onApprove:async(_,actions)=>{
+    style: {layout:'vertical',color:'gold',shape:'rect',label:'pay',height:48},
+    createOrder: (_, actions) => actions.order.create({
+      purchase_units: [{
+        amount: {value: '1.00'},
+        description: 'Gaza Rose — ' + art.name + ' (300 DPI digital download)'
+      }]
+    }),
+    onApprove: async (_, actions) => {
       await actions.order.capture();
-      const link=document.createElement('a');link.href=art.downloadUrl;link.download=art.file;link.target='_blank';
-      document.body.appendChild(link);link.click();document.body.removeChild(link);
+      // Trigger download
+      const a = document.createElement('a');
+      a.href = imgUrl; a.download = art.file; a.target = '_blank';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
       closeLightbox();
-      alert('Thank you! Downloading "'+art.name+'". 70% goes to PCRF. 🌹');
+      alert('Thank you! 🌹\nDownloading "' + art.name + '".\n70% of your $1 goes to PCRF children\'s aid.');
+    },
+    onError: () => {
+      window.open('mailto:mickowood86@gmail.com?subject=Gaza Rose Purchase&body=I want to buy: ' + art.name, '_blank');
     }
-  }).render('#lb-pp');
+  }).render('#lb-pp-inner');
 }
 
-function closeLightbox(){
+function closeLightbox() {
   document.getElementById('lightbox').classList.remove('active');
-  document.getElementById('lb-paypal').innerHTML='';
+  document.body.style.overflow = '';
+  document.getElementById('lb-paypal').innerHTML = '';
 }
 
-function filterGallery(){
-  const q=document.getElementById('search').value.toLowerCase();
-  buildGallery(artData.filter(a=>a.name.toLowerCase().includes(q)));
+function copyBtc() {
+  navigator.clipboard.writeText(BTC).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy address', 2000);
+  });
 }
 
-document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLightbox();});
+function filterGallery() {
+  const q = document.getElementById('search').value.toLowerCase();
+  buildGallery(artData.filter(a => a.name.toLowerCase().includes(q)));
+}
 
-window.onload = async function(){
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+
+// LOAD: fetch real filenames from GitHub Contents API
+window.onload = async function() {
   try {
-    const r = await fetch('https://api.github.com/repos/meekotharaccoon-cell/gaza-rose-gallery/releases/tags/v1.0-art-collection');
-    const rel = await r.json();
-    const assets = (rel.assets||[]).filter(a=>/\.(jpg|jpeg|png)$/i.test(a.name));
-    if(assets.length > 0){
-      artData = assets.map((asset,i)=>{
-        const name = asset.name
-          .replace(/300\.(JPG|jpg|PNG|png|jpeg)$/i,'')
-          .replace(/_BG$/,'').replace(/_/g,' ').replace(/300$/,'').trim()
-          .split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()).join(' ');
-        return {name, file:asset.name, downloadUrl:asset.browser_download_url, _idx:i};
-      });
-    } else throw new Error('no assets');
-  } catch(e){
-    const names=["Aurora Bloom","Bio Blue","Blaque Light","Bloominescent","Cherry Blossom","Cherry Blossom BG","Chive","Chive BG","Chrysanthemum","Chrysanthemum BG","Coral Rose","Dahlia Dream","Electric Orchid","Emerald Bloom","Fern Glow","Fire Lily","Flame Rose","Frost Bloom","Garden Mist","Ghost Orchid","Glass Rose","Golden Hour","Honey Bloom","Ice Garden","Indigo Petal","Jade Blossom","Lavender Haze","Lily Storm","Lotus Fire","Luna Bloom","Magenta Mist","Midnight Rose","Moonpetal","Mystic Fern","Night Orchid","Neon Petal","Ocean Rose","Pale Rose","Phantom Bloom","Pink Storm","Prism Rose","Purple Haze","Radiant Fern","Rainbow Lily","Red Mist","Rose Gold","Rose Storm","Ruby Glow","Sage Bloom","Sand Rose","Shadow Petal","Silver Orchid","Sky Garden","Solar Rose","Spring Mist","Star Bloom","Stellar Rose","Storm Petal","Summer Glow","Sunset Lily","Teal Rose","Twilight Bloom","Ultra Violet","Velvet Rose","Venus Garden","White Storm","Wild Rose"];
-    artData = names.map((name,i)=>{
-      const file=name.replace(/ /g,'_')+'300.JPG';
-      return {name, file, downloadUrl:RELEASE_BASE+file, _idx:i};
-    });
+    const r = await fetch('https://api.github.com/repos/meekotharaccoon-cell/gaza-rose-gallery/contents/art');
+    if (!r.ok) throw new Error('API failed');
+    const files = await r.json();
+    artData = files
+      .filter(f => /\.(jpg|jpeg|png)$/i.test(f.name))
+      .map((f, i) => ({
+        name: toDisplayName(f.name),
+        file: f.name,
+        _idx: i
+      }));
+    document.getElementById('count-stat').textContent = artData.length;
+    buildGallery(artData);
+  } catch(e) {
+    console.error('GitHub API failed:', e);
+    document.getElementById('loading').textContent = '⚠️ Could not load gallery. Please refresh.';
   }
-  buildGallery(artData);
 };
 </script>
 </body>
